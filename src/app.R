@@ -2,7 +2,14 @@ library(shiny)
 library(dplyr)
 library(ggplot2)
 
-data <- read_csv("..data/close.csv")
+data <- read_csv("../data/close.csv")
+
+data_long <- data |>
+  pivot_longer(
+    cols = -date,
+    names_to = "ticker",
+    values_to = "price"
+  )
 
 ui <- fluidPage(
   titlePanel("Finance bros lite"),
@@ -12,7 +19,7 @@ ui <- fluidPage(
       selectInput(
         inputID = "stock",
         label = "Choose a stock",
-        choices = c("Apple", "Meta","Microsoft","Google","Nvidia","Tesla")
+        choices = c("AAPL", "META","MSFT","GOOGL","NVDA","TSLA")
       )
     ),
     mainPanel(
@@ -21,3 +28,10 @@ ui <- fluidPage(
   )
 )
 
+server <- function(input, output, session){
+  selection <- input$stock
+  filtered_data <- reactive({
+    data_long |> filter(ticker == input$ticker)
+    
+  })
+}

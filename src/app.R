@@ -19,7 +19,13 @@ ui <- fluidPage(
       selectInput(
         inputID = "stock",
         label = "Choose a stock",
-        choices = c("AAPL", "META","MSFT","GOOGL","NVDA","TSLA")
+        choices = c(
+          "Apple" = "AAPL", 
+          "Meta" = "META",
+          "Microsoft" = "MSFT",
+          "Google" = "GOOGL",
+          "Nvidia"= "NVDA",
+          "Tesla" = "TSLA")
       )
     ),
     mainPanel(
@@ -29,7 +35,7 @@ ui <- fluidPage(
 )
 
 server <- function(input, output, session){
-  selection <- input$stock
+  
   filtered_data <- reactive({
     data_long |> filter(ticker == input$stock)
     

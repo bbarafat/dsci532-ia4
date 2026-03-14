@@ -6,7 +6,7 @@ library(ggplot2)
 library(plotly)
 library(zoo)
 
-data_long <- read_csv("../data/close.csv") |>
+data_long <- read_csv("data/close.csv") |>
   pivot_longer(
     cols = -Date,
     names_to = "ticker",

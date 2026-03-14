@@ -31,7 +31,19 @@ ui <- fluidPage(
 server <- function(input, output, session){
   selection <- input$stock
   filtered_data <- reactive({
-    data_long |> filter(ticker == input$ticker)
+    data_long |> filter(ticker == input$stock)
     
   })
+  
+  output$price_plot <- renderPlot({
+    ggplot(filtered_data(), aes(x = date, y = close)) +
+      geom_line()+
+      labs(
+        title = paste("Price for", input$stock),
+        x = "Date",
+        y = "Close Price"
+      )
+  })
 }
+
+shinyApp(ui, server)
